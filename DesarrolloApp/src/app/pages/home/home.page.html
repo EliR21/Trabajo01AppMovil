@@ -7,11 +7,19 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
   <div id="container">
     <strong>Bienvenido a la app Asistencia</strong>
-    <p>Usuario : {{username}}</p>
+    <ion-button shape="block" (click)="iniciarApp()">Registrar Asistencia</ion-button>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row align-items-center>
+      <ion-col>
+        {{ username }}
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
 

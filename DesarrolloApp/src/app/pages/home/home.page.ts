@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GlobaldataService } from 'src/app/services/globaldata.service';
-
+import { AuthProvider } from 'src/app/providers/auth/auth';
+import { AsignaturasPage } from '../asignaturas/asignaturas.page';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -16,17 +18,29 @@ export class HomePage implements OnInit{
   username = '';
   loading : HTMLIonLoadingElement;
 
+
+  pages = '';
+
   constructor(private loadingCtrl: LoadingController,
-    private router: Router) {}
+    private router: Router, private authProvider: AuthProvider, public navCtrl: NavController) {}
 
   ngOnInit(): void {    
     this.cargarLoading('Bienvenido');
     console.log('OnInit');
   }
+  iniciarApp(){
+    if(this.authProvider.esProfe()){
+      this.router.navigate(['/admn'])
 
+    } else{
+      this.router.navigate(['/asignaturas'])
+
+    }
+  }
   ionViewWillEnter(){
     if(GlobaldataService.isLogged){
       this.username = GlobaldataService.userObject;
+      
     }
     else{
       this.router.navigate(['/login']);
@@ -35,6 +49,10 @@ export class HomePage implements OnInit{
 
   ionViewDidEnter(){
     console.log('ionViewDidEnter');
+  }
+
+  ionViewCanEnter(){
+    return this.authProvider.isLoggedIn();
   }
 
   ionViewWillLeave(){
@@ -60,4 +78,6 @@ export class HomePage implements OnInit{
     await this.loading.present();
   }
 
+  
 }
+

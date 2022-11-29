@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AuthProvider } from 'src/app/providers/auth/auth';
+import { GlobaldataService } from 'src/app/services/globaldata.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,10 +11,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Login', url: '/login', icon: 'log-in' },
-    { title: 'Bienvenido', url: '/home', icon: 'body' },
+    { title: 'Home', url: '/home', icon: 'body' },
     { title: 'Nosotros', url: '/about', icon: 'people' },
-    { title: 'Código-Qr', url: '/codigo-qr', icon: 'qr-code' },
+    { title: 'Institucion', url: '/institucion', icon: 'school' },
   ];
-  constructor() {}
+  constructor(private router: Router, public navCtrl: NavController, private authProvider: AuthProvider) {}
 }

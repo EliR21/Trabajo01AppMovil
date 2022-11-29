@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { Routes, RouterModule } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
+import { AuthProvider } from 'src/app/providers/auth/auth';
 import { GlobaldataService } from 'src/app/services/globaldata.service';
+
 
 @Component({
   selector: 'app-login',
@@ -14,47 +17,56 @@ export class LoginPage implements OnInit {
   isNotHome = true;
 
   //Model
-  user : any = {
+  user = {
     email: '',
     password : ''
   }
   
   field: string = '';
 
-  constructor(private toastCtrl: ToastController, private router: Router) { }
+  constructor(private toastCtrl: ToastController, private router: Router, private authProvider: AuthProvider, private alertCtrl: AlertController) { }
 
   ngOnInit() {
   }
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Error al logearse',
+      message: 'Verifique sus credenciales',
+      buttons: ['Ok']
+    });
 
-  login(){
-    if(this.validateModel(this.user)){
-      GlobaldataService.isLogged = true;
-      GlobaldataService.userObject = this.user.email;
-      this.presentToast('Bienvenido ' + this.user.email);
-      this.router.navigate(['/']);
-    }
-    else{
-      this.presentToast('Debes ingresar: ' + this.field);
-    }
+    await alert.present();
+
   }
 
-  validateModel(model: any){
-    for(var[key,value] of Object.entries(model)){
-      if(value == ''){
-        this.field = key;
-        return false;
+  loginUser(){
+    this.authProvider.login(this.user.email, this.user.password).then(success => {
+      if (success) {
+        GlobaldataService.isLogged = true;
+        GlobaldataService.userObject = this.user.email;
+        this.presentToast('Bienvenido ' + this.user.email);
+        this.router.navigate(['/home']);
+        
+      } else {
+        this.presentAlert()
+
       }
-    }
-    return true;
+    }).catch(err => {
+      let alert = this.alertCtrl.create({
+        header: 'Error al logearse',
+        message: 'Verifique sus credenciales',
+        buttons: ['Ok']
+      })
+    } )
   }
+
 
   async presentToast(message: string, duration?: number){
     const toast = await this.toastCtrl.create({
       message:message,
-      duration:duration?duration:1000
+      duration:duration?duration:2000
     });
     toast.present();
   }
-
-
+ 
 }

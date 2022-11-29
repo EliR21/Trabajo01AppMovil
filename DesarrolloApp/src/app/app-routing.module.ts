@@ -31,7 +31,19 @@ const routes: Routes = [
   {
     path: 'codigo-qr',
     loadChildren: () => import('./pages/codigo-qr/codigo-qr.module').then( m => m.CodigoQrPageModule)
-  }
+  },
+  {
+    path: 'asignaturas',
+    loadChildren: () => import('./pages/asignaturas/asignaturas.module').then( m => m.AsignaturasPageModule)
+  },
+  {
+    path: 'institucion',
+    loadChildren: () => import('./pages/institucion/institucion.module').then( m => m.InstitucionPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/e404/e404.module').then( m => m.E404PageModule)
+  },
 ];
 
 @NgModule({

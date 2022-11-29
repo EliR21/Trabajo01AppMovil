@@ -9,7 +9,6 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 
 import { ComponentsModule } from 'src/app/pages/components/components.module';
-
 @NgModule({
   imports: [
     CommonModule,
