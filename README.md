@@ -1,4 +1,4 @@
 # Trabajo01AppMovil
-Primer entrega | Asignatura Programación de aplicaciones móviles 007D
+Segunda Entrega | Asignatura Programación de aplicaciones móviles 007D
 
 Integrantes: Franco Moya, Elias Rojas.
